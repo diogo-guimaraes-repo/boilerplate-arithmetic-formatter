@@ -8,6 +8,7 @@ def arithmetic_arranger(problems, is_solve=False):
       num_line = ""
       den_line = ""
       sep_line = "" 
+      res_line = ""
 
       for i, problem in enumerate(problems):
         splitted_problem = problem.split()
@@ -21,16 +22,23 @@ def arithmetic_arranger(problems, is_solve=False):
           for j in range(line_length):
             sep_line = sep_line + "-"
 
+          if is_solve == True:
+            res_line = res_line + execute_problem(splitted_problem).rjust(line_length)
+
           if i < (problems_size-1):
             num_line = num_line + "    "
             den_line = den_line + "    "
             sep_line = sep_line + "    "
+            res_line = res_line + "    "
 
         else:
           break
       
       if is_valid == True:
-        result = num_line + "\n" + den_line + "\n" + sep_line
+        if is_solve == True:
+          result = num_line + "\n" + den_line + "\n" + sep_line + "\n" + res_line
+        else:
+          result = num_line + "\n" + den_line + "\n" + sep_line
 
     else:
       result = "Error: Too many problems."
@@ -47,7 +55,7 @@ def validate_problem(operands, operator):
       result = "Error: Numbers cannot be more than four digits."
       is_valid = False
       break
-    elif operand.isdigit() == False:
+    elif operand.isnumeric() == False:
       result = "Error: Numbers must only contain digits."
       is_valid = False
       break
@@ -65,3 +73,13 @@ def get_line_length(operands):
       line_length = len(operand)
 
   return line_length+2 #give space for the operator and space
+
+def execute_problem(split_problem):
+  result = ""
+  if split_problem[1] == "+":
+    result = str(int(split_problem[0]) + int(split_problem[2]))
+  elif split_problem[1] == "-":
+    result = str(int(split_problem[0]) - int(split_problem[2]))
+  
+  return result
+
