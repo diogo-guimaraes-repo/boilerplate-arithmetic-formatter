@@ -5,19 +5,29 @@ def arithmetic_arranger(problems, is_solve=False):
     result = ""
     problems_size = len(problems)
     if problems_size <= 5:
-      operands = []
-      operator = [] 
+      num_line = ""
+      den_line = ""
+      sep_line = "" 
 
-      for problem in problems:
+      for i, problem in enumerate(problems):
         splitted_problem = problem.split()
-        unverified_operands = [splitted_problem[0], splitted_problem[2]]
-        is_valid, result = validate_problem(unverified_operands, splitted_problem[1])
+        operands = [splitted_problem[0], splitted_problem[2]]
+        is_valid, result = validate_problem(operands, splitted_problem[1])
 
         if is_valid == True:
-          operands.append(unverified_operands)
-          operator.append(splitted_problem[1])
+          line_length = get_line_length(operands)
+          num_line = num_line + operands[0].rjust(line_length)
+          den_line = den_line + splitted_problem[1] + " " + operands[1]
+          if i < (problems_size-1):
+            num_line = num_line + "    "
+            den_line = den_line + "    "
+
         else:
-          break      
+          break
+      
+      if is_valid == True:
+        result = num_line + "\n" + den_line
+
     else:
       result = "Error: Too many problems."
 
@@ -43,3 +53,11 @@ def validate_problem(operands, operator):
     result = "Error: Operator must be '+' or '-'."
 
   return is_valid, result
+
+def get_line_length(operands):
+  line_length = 0
+  for operand in operands:
+    if len(operand) > line_length:
+      line_length = len(operand)
+
+  return line_length+2 #give space for the operator and space
