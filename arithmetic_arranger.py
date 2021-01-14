@@ -17,16 +17,20 @@ def arithmetic_arranger(problems, is_solve=False):
         if is_valid == True:
           line_length = get_line_length(operands)
           num_line = num_line + operands[0].rjust(line_length)
-          den_line = den_line + splitted_problem[1] + " " + operands[1]
+          den_line = den_line + splitted_problem[1] + " " + operands[1].rjust(line_length-2)
+          for j in range(line_length):
+            sep_line = sep_line + "-"
+
           if i < (problems_size-1):
             num_line = num_line + "    "
             den_line = den_line + "    "
+            sep_line = sep_line + "    "
 
         else:
           break
       
       if is_valid == True:
-        result = num_line + "\n" + den_line
+        result = num_line + "\n" + den_line + "\n" + sep_line
 
     else:
       result = "Error: Too many problems."
